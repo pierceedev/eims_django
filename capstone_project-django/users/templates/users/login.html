@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="center">
+            <h1>Equipment Information Management System</h1>
+            <img src="{% static 'img/cmas.png' %}" alt="CMAS Logo">
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="text-field">
+                    <input type="text" name="username" required placeholder="Username">
+                    <input type="password" name="password" required placeholder="Password">
+                    <input type="submit" name="submit" value="Login" class="form-btn">    
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+class ItemBorrow(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.item.name} {self.staff}"
+    
+    def save(self, *args, **kwargs):
+        # Check if there is enough quantity to borrow
+        if self.item.quantity < self.quantity:
+            raise ValueError("Not enough quantity to borrow.")
+        
+        self.item.quantity -= self.quantity
+        # Save the updated item
+        self.item.save()
+        super(ItemBorrow, self).save(*args, **kwargs)
+
+class ItemAssign(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.item.name} {self.room} {self.staff}"
+    
+    def save(self, *args, **kwargs):
+        # Check if there is enough quantity to borrow
+        if self.item.quantity < self.quantity:
+            raise ValueError("Not enough quantity to assign.")
+        
+        self.item.quantity -= self.quantity
+        # Save the updated item
+        self.item.save()
+
+        super(ItemAssign, self).save(*args, **kwargs)
+
+
+
+
+
+                                <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Borrower
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Item
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Quantity
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date Borrowed
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for borroweditem in object_list %}
+                                    <tr class="bg-white">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            {{ borroweditem.borrower }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ borroweditem.item }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ borroweditem.quantity }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {{ borroweditem.date_borrowed }}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            There are currently no Items
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>

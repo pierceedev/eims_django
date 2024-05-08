@@ -1,0 +1,7 @@
+
+
+<form action="{% url 'logout' %}" method="post">
+    <input type="hidden" name="next" value="{{ request.path }}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>

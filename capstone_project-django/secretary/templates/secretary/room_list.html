@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold mb-4">Room List</h1>
+    <a href="{% url 'items:room-new' %}" class="text-blue-500 hover:underline mb-4">Add Room</a>
+    <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">Room No.</th>
+                <th class="py-2 px-4 border-b">Building</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in object_list %}
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ room.room }}<td>
+                    <td class="py-2 px-4 border-b">{{ room.building }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

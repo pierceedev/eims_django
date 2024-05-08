@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-8">
+        <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+            <div class="md:flex">
+                <div class="md:flex-shrink-0">
+                    <img class="h-48 w-full object-cover md:w-35" src="{% static 'img/cmas.png' %}" alt="Profile Image">
+                </div>
+                <div class="p-8">
+                    <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">User Profile</div>
+                    <h2 class="block mt-1 text-lg font-semibold text-gray-900">Username: {{ request.user.username }}</h2>
+                    <p class="mt-2 text-gray-600">User Type: {{ user.user_type }}</p>
+                    <!-- You can add more profile details here if needed -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

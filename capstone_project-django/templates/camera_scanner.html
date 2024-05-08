@@ -1,0 +1,43 @@
+<!-- camera_scanner.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Scanner</title>
+</head>
+<body>
+    <h1>Camera Scanner</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="scanButton">Scan</button>
+    <script>
+        const video = document.getElementById('video');
+        const scanButton = document.getElementById('scanButton');
+
+        // Get access to the camera stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing camera:', error);
+            });
+
+        // Function to capture image from camera
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+            // Send imageData to server for processing
+            console.log('Captured image:', imageData);
+            // You can perform further processing or send the image data to the server using AJAX
+        }
+
+        // Add click event listener to the scan button
+        scanButton.addEventListener('click', captureImage);
+    </script>
+</body>
+</html>
